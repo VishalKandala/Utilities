@@ -1,0 +1,93 @@
+n = 100, p = 64, pi = 3.1416009869231232, relative error = 2.65e-06, time (sec) =   0.0467
+n = 10000, p = 64, pi = 3.1415926544231279, relative error = 2.65e-10, time (sec) =   0.0439
+n = 1000000, p = 64, pi = 3.1415926535898757, relative error = 2.63e-14, time (sec) =   0.0440
+n = 100000000, p = 64, pi = 3.1415926535897953, relative error = 7.07e-16, time (sec) =   0.0471
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@nxt1356>
+Subject: Job 11931680: <compute_pi_mpi> in cluster <Main_Compute> Done
+
+Job <compute_pi_mpi> was submitted from host <login8> by user <vishalkandala> in cluster <Main_Compute>.
+Job was executed on host(s) <4*nxt1356>, in queue <mn_short>, as user <vishalkandala> in cluster <Main_Compute>.
+                            <4*nxt2030>
+                            <4*nxt1432>
+                            <4*nxt1959>
+                            <4*nxt1154>
+                            <4*nxt1224>
+                            <4*nxt1146>
+                            <4*nxt1830>
+                            <4*nxt1456>
+                            <4*nxt1328>
+                            <4*nxt1972>
+                            <4*nxt1248>
+                            <4*nxt1417>
+                            <4*nxt1717>
+                            <4*nxt1152>
+                            <4*nxt1771>
+</home/vishalkandala> was used as the home directory.
+</home/vishalkandala> was used as the working directory.
+Started at Mon Jul  6 19:21:19 2020
+Results reported on Mon Jul  6 19:21:38 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#BSUB -n 64 -R 'select[nxt] rusage[mem=150] span[ptile=4]' -M 150
+#BSUB -J compute_pi_mpi -o output.%J -L /bin/bash -W 0:10
+#
+#NECESSARY JOB SPECIFICATIONS
+##BSUB -J HW1             # Set the job name to "JobName"
+##BSUB -L /bin/bash           # Uses the bash login shell to initialize the job's execution environment.
+##BSUB -W 02:00               # Sets job's runtime wall-clock limit in hours:minutes or just minutes (-mm)
+##BSUB -n 4                 # NNN: total number of cores/jobslots to allocate for the job
+##BSUB -R "select[phi]" # Select node-type: nxt, mem256gb, gpu, phi, mem1t, mem2t ...
+##BSUB -R "span[ptile=4]"    # XX:  number of cores/jobslots per node to use. Also, a node selection criterion.
+##BSUB -R "rusage[mem=nnn]"   # Reserves nnn MBs per process/CPU for the job
+##BSUB -M mm                  # Sets the per process enforceable memory limit to nnn MB
+##BSUB -o OUTPUT.%j      # Send stdout and stderr to "OUTPUTFILE.[jobID]"
+#
+# <--- at this point the current working directory is the one you submitted the job from.
+#
+module load intel/2017A       # load Intel software stack 
+# Q 1,2,3,4
+#echo "Processes = 1"
+#mpirun -np 1 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 2"
+#mpirun -np 2 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 4"
+#mpirun -np 4 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 8"
+#mpirun -np 8 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 16"
+#mpirun -np 16 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 32"
+#mpirun -np 32 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 64"
+#mpirun -np 64 ./compute_pi_mpi.exe 100000000
+#
+#
+# Q 6b
+mpirun -np 64 ./compute_pi_mpi.exe 100
+mpirun -np 64 ./compute_pi_mpi.exe 10000
+mpirun -np 64 ./compute_pi_mpi.exe 1000000
+mpirun -np 64 ./compute_pi_mpi.exe 100000000
+
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   63.00 sec.
+    Max Memory :                                 652 MB
+    Average Memory :                             18.50 MB
+    Total Requested Memory :                     9600.00 MB
+    Delta Memory :                               8948.00 MB
+    Max Swap :                                   1 MB
+    Max Processes :                              7
+    Max Threads :                                9
+
+The output (if any) is above this job summary.
+
