@@ -1,0 +1,85 @@
+#!/usr/bin/python3
+#@Author: Vishal Kandala
+#Date: 10/12/2020
+# AERO 641 HW4
+
+from scipy.integrate import solve_ivp
+import numpy as np
+import matplotlib.pyplot as plt
+##############################
+
+#Lindemann Mechanism
+# A + X [=] A* + X;
+# A* [-->] P;
+        
+### Define Arhenius Constants #
+T=300
+k1=500/2
+k2=50/2
+k3=1000/2
+
+def Lindemann(t,Species):
+    X=Species[0]
+    A=Species[1]
+    P=Species[2]
+    Astar=Species[3]
+    ### ODE ####
+    dXdt=0
+    dAdt=-(k1*A*X)+(k2*Astar*X) 
+    dPdt=k3*Astar
+    dAstardt=(k1*A*X)-(k3*Astar)-(k2*Astar*X)
+    return np.array([dXdt,dAdt,dPdt,dAstardt])
+
+#################################
+###### Solution Controls #######
+# Solver parameters
+abs_tol=1e-8
+rel_tol=1e-6
+kwargs=('LSODA')
+
+# ODE System  Parameters 
+#k1=10
+#k2=1000
+#k3=500
+#K=np.array([k1,k2,k3])
+
+# Initial Condition
+X0=np.array([0.6,1,0,0])
+
+# Time
+t0=0
+tf=0.05
+tspan=np.array([t0,tf])
+###############################
+
+### Solution #################
+#Solver setup
+solver=solve_ivp(Lindemann,tspan,X0, method=kwargs,atol=abs_tol,rtol=rel_tol)
+#solver.set_integrator(name, atol=1e-8, rtol=1e-6, method=*kwargs)
+
+# Integration
+#tval=[]
+#i=0
+#while solver.succesful() and solver.t<tf:
+# #   solver.integrate(tf, step=True)
+# #   tval.append(solver.t)
+# #   i+=1
+
+#############################
+#print(solver.y[0])
+#print(solver.y[1])
+#print(solver.y[2])
+#print(solver.y[3])
+
+# plot #####################
+plt.figure(1)
+plt.title('Lindemann Mechanism: Concentration vs Time')
+plt.xlabel('Time(s)')
+plt.ylabel('C[$\\dfrac{K_{mol}}{m^{3}}$]')
+plt.plot(solver.t,solver.y[0],color='k',label='X')
+plt.plot(solver.t,solver.y[1],color='b',label='M')
+plt.plot(solver.t,solver.y[2],color='g',label='P')
+plt.plot(solver.t,solver.y[3],color='r',label='M*')
+plt.legend()
+plt.grid(True)
+plt.savefig('lindemann.png')

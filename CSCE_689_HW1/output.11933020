@@ -1,0 +1,92 @@
+n = 100, p = 1, pi = 3.1416009869231245, relative error = 2.65e-06, time (sec) =   0.0001
+n = 10000, p = 1, pi = 3.1415926544231239, relative error = 2.65e-10, time (sec) =   0.0001
+n = 1000000, p = 1, pi = 3.1415926535899033, relative error = 3.51e-14, time (sec) =   0.0026
+n = 100000000, p = 1, pi = 3.1415926535902168, relative error = 1.35e-13, time (sec) =   0.2454
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@nxt1653>
+Subject: Job 11933020: <compute_pi_mpi> in cluster <Main_Compute> Done
+
+Job <compute_pi_mpi> was submitted from host <login8> by user <vishalkandala> in cluster <Main_Compute>.
+Job was executed on host(s) <4*nxt1653>, in queue <mn_short>, as user <vishalkandala> in cluster <Main_Compute>.
+                            <4*nxt1240>
+                            <4*nxt1461>
+                            <4*nxt1118>
+                            <4*nxt2161>
+                            <4*nxt1718>
+                            <4*nxt2163>
+                            <4*nxt1550>
+                            <4*nxt1933>
+                            <4*nxt1935>
+                            <4*nxt2030>
+                            <4*nxt1857>
+                            <4*nxt1858>
+                            <4*nxt1124>
+                            <4*nxt1126>
+                            <4*nxt1508>
+</home/vishalkandala> was used as the home directory.
+</home/vishalkandala> was used as the working directory.
+Started at Mon Jul  6 19:46:46 2020
+Results reported on Mon Jul  6 19:47:01 2020
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#BSUB -n 64 -R 'select[nxt] rusage[mem=150] span[ptile=4]' -M 150
+#BSUB -J compute_pi_mpi -o output.%J -L /bin/bash -W 0:10
+#
+#NECESSARY JOB SPECIFICATIONS
+##BSUB -J HW1             # Set the job name to "JobName"
+##BSUB -L /bin/bash           # Uses the bash login shell to initialize the job's execution environment.
+##BSUB -W 02:00               # Sets job's runtime wall-clock limit in hours:minutes or just minutes (-mm)
+##BSUB -n 4                 # NNN: total number of cores/jobslots to allocate for the job
+##BSUB -R "select[phi]" # Select node-type: nxt, mem256gb, gpu, phi, mem1t, mem2t ...
+##BSUB -R "span[ptile=4]"    # XX:  number of cores/jobslots per node to use. Also, a node selection criterion.
+##BSUB -R "rusage[mem=nnn]"   # Reserves nnn MBs per process/CPU for the job
+##BSUB -M mm                  # Sets the per process enforceable memory limit to nnn MB
+##BSUB -o OUTPUT.%j      # Send stdout and stderr to "OUTPUTFILE.[jobID]"
+#
+# <--- at this point the current working directory is the one you submitted the job from.
+#
+module load intel/2017A       # load Intel software stack 
+# Q 1,2,3,4
+#echo "Processes = 1"
+#mpirun -np 1 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 2"
+#mpirun -np 2 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 4"
+#mpirun -np 4 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 8"
+#mpirun -np 8 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 16"
+#mpirun -np 16 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 32"
+#mpirun -np 32 ./compute_pi_mpi.exe 100000000
+#echo "Processes = 64"
+#mpirun -np 64 ./compute_pi_mpi.exe 100000000
+#
+#
+# Q 6b
+mpirun -np 1 ./compute_pi_mpi.exe 100
+mpirun -np 1 ./compute_pi_mpi.exe 10000
+mpirun -np 1 ./compute_pi_mpi.exe 1000000
+mpirun -np 1 ./compute_pi_mpi.exe 100000000
+
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   2.28 sec.
+    Max Memory :                                 25 MB
+    Average Memory :                             13.00 MB
+    Total Requested Memory :                     9600.00 MB
+    Delta Memory :                               9575.00 MB
+    Max Processes :                              8
+    Max Threads :                                10
+
+The output (if any) is above this job summary.
+
